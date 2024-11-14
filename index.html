@@ -1,41 +1,54 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>French Quiz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French Verbs Quiz</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            background-color: #1e90ff; /* Синий цвет фона */
+            background-color: #1e90ff;
             color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #startButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
         }
         .button {
+            background-color: #ffffff;
+            color: #1e90ff;
+            padding: 10px 15px;
             margin: 10px;
-            padding: 10px 20px;
-            font-size: 18px;
-            border: none;
-            color: white;
-            background-color: #1e90ff;
+            border: 1px solid #1e90ff;
+            border-radius: 10px;
             cursor: pointer;
+            font-size: 16px;
+            width: 150px;
+            display: inline-block;
         }
         .correct {
             background-color: green;
+            color: white;
         }
         .incorrect {
             background-color: red;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>Французский Quiz</h1>
-    <button id="startButton" class="button">Старт</button>
-    <div id="quiz" style="display: none;">
-        <p id="question"></p>
+    <h1>French Verbs Quiz</h1>
+    <button id="startButton" onclick="startQuiz()">Старт</button>
+    <div id="questionSection" style="display: none;">
+        <h2 id="verbText"></h2>
         <div id="options"></div>
     </div>
 
@@ -43,49 +56,47 @@
         const questions = [
             { french: "manger", correct: "есть", options: ["пить", "читать", "идти", "есть"] },
             { french: "boire", correct: "пить", options: ["есть", "пить", "танцевать", "бегать"] },
-            { french: "lire", correct: "читать", options: ["читать", "писать", "спать", "слушать"] }
+            { french: "lire", correct: "читать", options: ["читать", "писать", "спать", "слушать"] },
         ];
-
-        let currentQuestion;
-
-        document.getElementById('startButton').onclick = startQuiz;
 
         function startQuiz() {
             document.getElementById('startButton').style.display = 'none';
-            document.getElementById('quiz').style.display = 'block';
-            loadQuestion();
+            document.getElementById('questionSection').style.display = 'block';
+            showQuestion();
         }
 
-        function loadQuestion() {
-            currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-            document.getElementById('question').innerText = `Как переводится '${currentQuestion.french}'?`;
+        function showQuestion() {
+            const question = questions[Math.floor(Math.random() * questions.length)];
+            const verbText = document.getElementById('verbText');
             const optionsContainer = document.getElementById('options');
+
+            verbText.textContent = `Как переводится '${question.french}'?`;
             optionsContainer.innerHTML = '';
 
-            currentQuestion.options.forEach(option => {
+            question.options.forEach(option => {
                 const button = document.createElement('button');
-                button.innerText = option;
-                button.classList.add('button');
-                button.onclick = () => checkAnswer(option, button);
+                button.textContent = option;
+                button.className = 'button';
+                button.onclick = () => checkAnswer(button, option, question.correct);
                 optionsContainer.appendChild(button);
             });
         }
 
-        function checkAnswer(selectedOption, button) {
-            if (selectedOption === currentQuestion.correct) {
-                document.body.style.backgroundColor = 'green';
-            } else {
-                button.classList.add('incorrect');
-                Array.from(document.getElementById('options').children).forEach(btn => {
-                    if (btn.innerText === currentQuestion.correct) {
-                        btn.classList.add('correct');
-                    }
-                });
-            }
+        function checkAnswer(button, selectedOption, correctAnswer) {
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(btn => {
+                btn.disabled = true;
+                if (btn.textContent === correctAnswer) {
+                    btn.className = 'button correct';
+                } else if (btn.textContent === selectedOption && selectedOption !== correctAnswer) {
+                    btn.className = 'button incorrect';
+                }
+            });
+
             setTimeout(() => {
-                document.body.style.backgroundColor = '#1e90ff';
-                loadQuestion();
-            }, 1000);
+                buttons.forEach(btn => btn.disabled = false);
+                showQuestion();
+            }, 2000);
         }
     </script>
 </body>
