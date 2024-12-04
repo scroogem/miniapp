@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пример сайта</title>
+    <link rel="stylesheet" href="nom.css">
+</head>
+<body>
+    <h1>Добро пожаловать на мой сайт</h1>
+    <p>Этот сайт создан для демонстрации использования HTML и CSS.</p>
+    <nav>
+        <a href="https://example.com" target="_blank">Ссылка 1</a> | 
+        <a href="https://example.org" target="_blank">Ссылка 2</a>
+    </nav>
+    <img src="pc_image.jpg" alt="Изображение компьютера">
+</body>
+</html>
+
+
+
+
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Стили заголовка */
+h1 {
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Стили текста */
+p {
+    color: #666;
+    font-size: 18px;
+}
+
+/* Стили ссылок */
+nav a {
+    color: #007BFF;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Стили изображения */
+img {
+    margin-top: 20px;
+    width: 300px;
+    height: auto;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
