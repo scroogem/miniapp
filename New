@@ -1,21 +1,68 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пример сайта</title>
+    <title>Расписание 1 NSI</title>
     <link rel="stylesheet" href="nom.css">
 </head>
 <body>
-    <h1>Добро пожаловать на мой сайт</h1>
-    <p>Этот сайт создан для демонстрации использования HTML и CSS.</p>
-    <nav>
-        <a href="https://example.com" target="_blank">Ссылка 1</a> | 
-        <a href="https://example.org" target="_blank">Ссылка 2</a>
-    </nav>
-    <img src="pc_image.jpg" alt="Изображение компьютера">
+    <h1>Расписание для 1 NSI</h1>
+    <table>
+        <tr>
+            <th>День</th>
+            <th>8:00-10:00</th>
+            <th>10:00-12:00</th>
+            <th>12:00-14:00</th>
+            <th>14:00-16:00</th>
+            <th>16:00-18:00</th>
+        </tr>
+        <tr>
+            <td>Понедельник</td>
+            <td></td>
+            <td>Английский</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Вторник</td>
+            <td>Математика</td>
+            <td>NSI</td>
+            <td rowspan="5">Обед</td>
+            <td>Итальянский</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Среда</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Спорт</td>
+        </tr>
+        <tr>
+            <td>Четверг</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Пятница</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
 </body>
 </html>
+
+
+
+
+
 
 
 
@@ -29,35 +76,38 @@ body {
     padding: 0;
 }
 
-/* Стили заголовка */
+/* Заголовок */
 h1 {
     color: #333;
     margin-top: 20px;
 }
 
-/* Стили текста */
-p {
-    color: #666;
-    font-size: 18px;
+/* Таблица */
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили ссылок */
-nav a {
-    color: #007BFF;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 16px;
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
 }
 
-nav a:hover {
-    text-decoration: underline;
+th {
+    background-color: #007BFF;
+    color: #fff;
+    font-weight: bold;
 }
 
-/* Стили изображения */
-img {
-    margin-top: 20px;
-    width: 300px;
-    height: auto;
-    border: 2px solid #ddd;
-    border-radius: 8px;
+td {
+    font-size: 14px;
+}
+
+td[rowspan] {
+    background-color: #f9f9f9;
+    font-style: italic;
 }
