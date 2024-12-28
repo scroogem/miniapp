@@ -1,0 +1,107 @@
+import logging
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputFile
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler
+
+# Настройка логирования
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO,
+    filename='bot.log',  # Логи будут сохраняться в файл bot.log
+    filemode='a'  # Добавление новых логов в конец файла
+)
+logger = logging.getLogger(__name__)
+
+# Токен бота от BotFather
+TOKEN = '7441471793:AAGqePFfnlCD3Fyv0HgI8DmPml_i7icIgOI'
+
+async def start(update: Update, context):
+    user = update.effective_user
+    logger.info(f"Пользователь {user.username} ({user.id}) вызвал команду /start")
+
+    text = ("Мы — брендинговое агентство LINII. Одно из ведущих брендинговых агентств России. 12 лет мы работаем в сфере создания, "
+            "развития и продвижения брендов на внутренних и международных рынках.\n\n"
+            "Специализируемся на проектах в области крупного корпоративного брендинга, ритейла и HoReCa. Наша экспертиза в стратегии, "
+            "нейминге, дизайне и проектировании пользовательского опыта в розничной и цифровой среде.\n\n"
+            "Мы разрабатываем сильные бренды, которые остаются актуальными в течение многих лет. К нам приходят не по рекламе, а по рекомендации.\n\n"
+            "12 лет на рынке\n"
+            "35 человек в команде\n"
+            "50 ритейл-проектов\n"
+            "90 процентов клиентов приходят к нам по рекомендации\n"
+            "600 реализованных проектов для разных рынков: Китай, СНГ, Россия и Европа")
+
+    await update.message.reply_text(text)
+    await main_menu(update)
+
+async def menu_command(update: Update, context):
+    user = update.effective_user
+    logger.info(f"Пользователь {user.username} ({user.id}) вызвал команду /menu")
+    await main_menu(update)
+
+async def main_menu(update):
+    keyboard = [
+        [InlineKeyboardButton("Презентация агентства", callback_data='presentation')],
+        [InlineKeyboardButton("Смотреть шоурил", callback_data='showreel')],
+        [InlineKeyboardButton("Нейминг", url='https://naming-linii.ru')],
+        [InlineKeyboardButton("Подкаст", url='https://dlinnoetire.mave.digital/')],
+        [InlineKeyboardButton("Команда", callback_data='team')],
+        [InlineKeyboardButton("Контакты", callback_data='contacts')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    if update.message:
+        await update.message.reply_text("Выберите опцию из меню:", reply_markup=reply_markup)
+    elif update.callback_query:
+        await update.callback_query.message.reply_text("Вы вернулись в главное меню.", reply_markup=reply_markup)
+
+async def button_handler(update: Update, context):
+    query = update.callback_query
+    user = query.from_user
+    logger.info(f"Пользователь {user.username} ({user.id}) нажал на кнопку с данными: {query.data}")
+    await query.answer()
+
+    back_button = InlineKeyboardMarkup([[InlineKeyboardButton("\u25c0 Назад", callback_data='back')]])
+
+    try:
+        if query.data == 'team':
+            await query.message.reply_text("Отправляйте на почту team@linii.ru резюме и портфолио, а также короткое сопроводительное письмо. Если вы пришли по рекомендации, обязательно напишите от кого.\n\n"
+            "https://fantastic-celery-4cf.notion.site/LINII-a786bc817ff14e7d85f06470fc7668aa", reply_markup=back_button)
+        elif query.data == 'presentation':
+            presentation_path = '/Users/maks/Downloads/Credentials_LINII.pdf'  # Замените на правильный путь
+            with open(presentation_path, 'rb') as presentation_file:
+                document = InputFile(presentation_file)
+                await query.message.reply_document(document=document, caption="Вот наша презентация", reply_markup=back_button)
+        elif query.data == 'showreel':
+            video_path = '/Users/maks/Downloads/linii_showreel.mp4'  # Замените на правильный путь
+            with open(video_path, 'rb') as video_file:
+                video = InputFile(video_file)
+                await query.message.reply_video(video=video, width=1920, height=1080, caption="Вот наш шоурил", reply_markup=back_button)
+        elif query.data == 'contacts':
+            await query.message.reply_text(
+                "Будем рады обсудить задачу!\n\n"
+                "Почта: info@linii.ru\n"
+                "Телеграмм: @nb_linii\n\n"
+                "Телеграмм-канал: @liniigroup\n\n"
+                "Сотрудничество:\n"
+                "PR: pr.linii.group@gmail.com\n"
+                "SMM: @angelagilem\n\n"
+                "Адрес: Покровский бульвар, 6/20с2, Москва, Россия, 109028",
+                reply_markup=back_button
+            )
+        elif query.data == 'back':
+            await main_menu(update)
+    except FileNotFoundError as e:
+        logger.error(f"Файл не найден: {e}")
+        await query.message.reply_text("Файл не найден. Пожалуйста, попробуйте позже.")
+    except Exception as e:
+        logger.error(f"Произошла ошибка: {e}")
+        await query.message.reply_text(f"Произошла ошибка: {e}")
+
+if __name__ == '__main__':
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler('start', start))
+    app.add_handler(CommandHandler('menu', menu_command))
+    app.add_handler(CallbackQueryHandler(button_handler))
+
+    logger.info("Бот запущен...")
+    app.run_polling() 
