@@ -106,8 +106,101 @@ th {
 td {
     font-size: 14px;
 }
-
 td[rowspan] {
     background-color: #f9f9f9;
     font-style: italic;
 }
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamborghini</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Lamborghini Logo" id="logo">
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="history.html">История</a></li>
+                <li><a href="models.html">Модели</a></li>
+                <li><a href="gallery.html">Галерея</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Добро пожаловать в мир Lamborghini</h1>
+        <p>Узнайте больше об одной из самых легендарных автомобильных марок.</p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Lamborghini Fan Site</p>
+    </footer>
+</body>
+</html>
+
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#logo {
+    height: 50px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: black;
+    color: white;
+}
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Сайт Lamborghini готов!');
+});
